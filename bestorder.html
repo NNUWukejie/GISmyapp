@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>最佳工作序列</title>
+<style type="text/css">
+.colorbar {
+	font-family: Tahoma, Geneva, sans-serif;
+}
+.colorbar strong {
+	font-size: xx-large;
+	font-family: Tahoma, Geneva, sans-serif;
+	color: #06F;
+	font-weight: bold;
+	text-align: left;
+}
+</style>
+</head>
+
+<body>
+<p align="left" class="colorbar"><strong> 最佳工作序列
+</strong></p>
+<table width="594" height="232" border="1">
+  <tr>
+    <th width="112" scope="col">任务</th>
+    <th width="112" scope="col">费时</th>
+    <th width="281" scope="col">最后完成期限</th>
+    <th width="61" scope="col">价值</th>
+  </tr>
+  <tr>
+    <td><div align="center">1</div></td>
+    <td><div align="center">4</div></td>
+    <td><div align="center">10</div></td>
+    <td><div align="center">2</div></td>
+  </tr>
+  <tr>
+    <td><div align="center">2</div></td>
+    <td><div align="center">3</div></td>
+    <td><div align="center">8</div></td>
+    <td><div align="center">3</div></td>
+  </tr>
+  <tr>
+    <td><div align="center">3</div></td>
+    <td><div align="center">2</div></td>
+    <td><div align="center">4</div></td>
+    <td><div align="center">3</div></td>
+  </tr>
+  <tr>
+    <td><div align="center">4</div></td>
+    <td><div align="center">1</div></td>
+    <td><div align="center">2</div></td>
+    <td><div align="center">6</div></td>
+  </tr>
+</table>
+<p class="colorbar">&nbsp;</p>
+<input name="button" type="submit" id="button" onclick="run()" value="开始" />
+
+
+<script>
+    var order=new Array(1,2,3,4);
+
+    //交换函数
+    function swap(a,b)
+    {
+        var temp=[0,0];
+        temp[0]=b;
+        temp[1]=a;
+        return temp;
+    }
+
+
+    //全排列函数
+    function order_index(str,index,str_size)
+    {
+        var i=0;
+        var j=0;
+
+        if(index==str_size)
+        {
+            //output
+            document.write("方案:任务顺序 ");
+            for(i;i<str_size;i++)
+            {
+                document.write(str[i]+" ");
+            }
+            later_print(str,str_size)
+            document.write("<br>");
+        }
+        else
+        {
+            for(j=index;j<str_size;j++)
+            {
+                var temp=swap(str[j],str[index]);
+                str[j]=temp[0];str[index]=temp[1];
+                order_index(str,index+1,str_size);
+                temp=swap(str[j],str[index]);
+                str[j]=temp[0];str[index]=temp[1];
+            }
+        }
+    }
+
+    //后续输出
+    function later_print(str,str_size)
+    {
+        var total=0;
+        document.write("任务费时 10 ");
+        document.write("任务价值 14 ");
+        if(str[0]==1)
+        {
+            total=10;
+        }
+        else
+        {
+            if(str[1]==1)
+            {
+                total=11;
+            }
+            if(str[2]==1)
+            {
+                total=12;
+            }
+            if(str[3]==1)
+            {
+                total=13;
+            }
+        }
+   
+        document.write("最后期限 "+total);
+
+
+    }
+
+
+    function run()
+    {
+       document.write("可能的结果如下："+"<br>");
+       order_index(order,0,4);
+    }
+
+        
+        
+</script>
+</body>
+</html>

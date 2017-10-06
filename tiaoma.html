@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>跳马</title>
+</head>
+
+<body>
+<table width="1169" height="299" border="1">
+  <tr>
+    <th width="182" height="74" bgcolor="#CCCCCC" scope="col">棋盘行数m</th>
+    <th width="185" bgcolor="#CCCCCC" scope="col">棋盘列数n</th>
+    <th width="397" bgcolor="#CCCCCC" scope="col">马初始位置的x坐标</th>
+    <th width="377" bgcolor="#CCCCCC" scope="col">马初始位置的y坐标</th>
+  </tr>
+  <tr>
+    <td height="39"><label for="iTotalM"></label>
+    <input type="text" name="iTotalM" id="iTotalM" /></td>
+    <td><form id="form2" name="form2" method="post" action="">
+      <label for="iTotalN"></label>
+      <input type="text" name="iTotalN" id="iTotalN" />
+    </form></td>
+    <td><label for="iStartX"></label>
+    <input name="iStartX" type="text" id="iStartX" size="50" /></td>
+    <td><label for="iStartY"></label>
+    <input name="iStartY" type="text" id="iStartY" size="50" /></td>
+  </tr>
+  <tr>
+    <td height="51"><form id="form1" name="form1" method="post" action="">
+      <div align="center">
+        <input name="button" type="submit" id="button" onclick="start_tiaoma()" value="跳马开始" />
+      </div>
+    </form></td>
+    <td height="51" colspan="3">&nbsp;</td>
+  </tr>
+  
+</table>
+
+<script>
+
+    var TotalM=0;
+   	var TotalN=0;
+  	var StartX=0;
+  	var StartY=0;
+    var MAXSTEP=100;
+    var Num;
+
+    //创建存储坐标位置的数组，长度设置为100
+    var pathx=new Array();
+    var pathy=new Array();
+
+    for (var i=0;i<MAXSTEP+1;i++)
+    {
+      pathx[i]=0;
+      pathy[i]=0;
+    }
+
+    //创建移动数组，共8个方向
+    var movex=new Array(0,1,2,2,1,-1,-2,-2,-1);
+    var movey=new Array(0,2,1,-1,-2,-2,-1,1,2);
+
+     //方案计数
+     var  Num=0;
+
+
+
+    function start_tiaoma()
+    {
+     
+      get();
+      //将初始位置放入第一个坐标位置中
+      pathx[0]=StartX;
+      pathy[0]=StartY;
+      var a=parseInt(StartX);
+      var b=parseInt(StartY);
+      document.write("最终计算结果："+"<br>");
+      //调用跳马函数
+      jump(a,b,1);
+
+      //输出总方案数
+      document.write("总方案数："+Num);
+
+      return 0;
+    }
+
+    function get()
+    {
+      TotalM=document.getElementById("iTotalM").value; 
+   	  TotalN=document.getElementById("iTotalN").value;
+  	  StartX=document.getElementById("iStartX").value;
+  	  StartY=document.getElementById("iStartY").value;
+    }
+
+    function jump(x,y,step)
+    {
+       var k,i;
+       var t1,t2;
+       var x1,y1;
+
+       for(k=1;k<=8;k=k+1)
+       {
+         x1=x+movex[k];
+         y1=y+movey[k];
+
+         if((x1>TotalM)||(y1>TotalN))
+             continue;
+
+         if(step>100)
+         {
+           return;
+         }
+
+         t1=(x1>=0)&&(x1<=TotalM);
+
+         t2=(y1>=0)&&(y1<=TotalN);
+
+         if((t1)&&(t2))
+         {
+           var kk=0;
+           for(var ii=1;ii<step+1;ii=ii+1)
+           {
+             if((pathx[ii]==x1)&&(pathy[ii]==y1))
+             {
+               kk=kk+1;
+             }
+           }
+           if(kk>0)
+          {
+            continue;
+          }
+           pathx[step]=x1;
+           pathy[step]=y1;
+          
+           if((x1==pathx[0])&&(y1==pathy[0]))
+           {
+             Num=Num+1;
+             document.write("方案"+Num+":");
+             for(var jj=0;jj<step;jj=jj+1)
+             {
+               document.write("("+pathx[jj]+","+pathy[jj]+")"+"→");
+             }
+             document.write("("+pathx[step]+","+pathy[step]+")");
+             document.write("<br>");
+           }
+
+           else{
+             jump(x1,y1,step+1);
+           }
+         }
+
+       }
+       return 0;
+    }
+</script>
+</body>
+</html>
+
